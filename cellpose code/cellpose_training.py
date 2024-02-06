@@ -19,19 +19,19 @@ mpl.rcParams['figure.dpi'] = 300
 use_GPU = core.use_gpu()
 print('>>> GPU activated? %d'%use_GPU)
 
-train_dir = "C:\\Users\\Jessica Zhu\\Downloads\\segmentation\\3_7_1\\Composites\\aligned\\training" #@param {type:"string"}
-test_dir = "C:\\Users\\Jessica Zhu\\Downloads\\segmentation\\3_7_1\\Composites\\aligned\\test" #@param {type:"string"}
+train_dir = "E:\\Jessica\\model with varied sets\\training_set"
+test_dir = "E:\\Jessica\\model with varied sets\\test set"
 #Define where the patch file will be saved
-base = "C:\\Users\\Jessica Zhu\\Downloads\\segmentation\\3_7_1\\model_content"
+base = "E:\\Jessica\\model with varied sets"
 
 
 initial_model = "cyto2" #@param ['cyto','nuclei','tissuenet','livecell','cyto2','CP','CPx','TN1','TN2','TN3','LC1','LC2','LC3','LC4','scratch']
-model_name = "HUVEC_monolayer" #@param {type:"string"}
+model_name = "HUVEC_monolayer_varied_set" #@param {type:"string"}
 
 # other parameters for training.
 #@markdown ###Training Parameters:
 #@markdown Number of epochs:
-n_epochs =  100#@param {type:"number"}
+n_epochs =  150#@param {type:"number"}
 
 Channel_to_use_for_training = "Green" #@param ["Grayscale", "Blue", "Green", "Red"]
 
@@ -119,30 +119,30 @@ masks = model.eval(test_data,
                    diameter=diam_labels)[0]
 
 # check performance using ground truth labels
-ap = cellpose.metrics.average_precision(test_labels, masks)[0]
-print('')
-print(f'>>> average precision at iou threshold 0.5 = {ap[:,0].mean():.3f}')
+# ap = cellpose.metrics.average_precision(test_labels, masks)[0]
+# print('')
+# print(f'>>> average precision at iou threshold 0.5 = {ap[:,0].mean():.3f}')
 
-plt.figure(figsize=(12,8), dpi=150)
-for k,im in enumerate(test_data):
-    img = im.copy()
-    plt.subplot(3,len(train_data), k+1)
-    img = np.vstack((img, np.zeros_like(img)[:1]))
-    img = img.transpose(1,2,0)
-    plt.imshow(img)
-    plt.axis('off')
-    if k==0:
-        plt.title('image')
+# plt.figure(figsize=(12,8), dpi=150)
+# for k,im in enumerate(test_data):
+#     img = im.copy()
+#     plt.subplot(3,len(train_data), k+1)
+#     img = np.vstack((img, np.zeros_like(img)[:1]))
+#     img = img.transpose(1,2,0)
+#     plt.imshow(img)
+#     plt.axis('off')
+#     if k==0:
+#         plt.title('image')
 
-    plt.subplot(3,len(train_data), len(train_data) + k+1)
-    plt.imshow(masks[k])
-    plt.axis('off')
-    if k==0:
-        plt.title('predicted labels')
+#     plt.subplot(3,len(train_data), len(train_data) + k+1)
+#     plt.imshow(masks[k])
+#     plt.axis('off')
+#     if k==0:
+#         plt.title('predicted labels')
 
-    plt.subplot(3,len(train_data), 2*len(train_data) + k+1)
-    plt.imshow(test_labels[k])
-    plt.axis('off')
-    if k==0:
-        plt.title('true labels')
-plt.tight_layout()
+#     plt.subplot(3,len(train_data), 2*len(train_data) + k+1)
+#     plt.imshow(test_labels[k])
+#     plt.axis('off')
+#     if k==0:
+#         plt.title('true labels')
+# plt.tight_layout()
