@@ -60,14 +60,25 @@ The output of running the nuclear tracking and motility parameters code is an N 
 
 The function ```mask_matching()``` is called to perform the mask matching. The function takes in the matrix output from the previous two steps and outputs an N x M x 18 3-D matrix. The matrix is saved as a MAT-file object. 
 
-Each slice of the matrix contains the values for different parameters of each cell. <!--The parmeters are as follow: -->
+Each slice of the matrix contains the values for different parameters of each cell. The parmeters are as follow:
 
-<!--tracedata(:,:,5)  - angle of movement 
-tracedata(:,:,6) - single cell velocity
-tracedata(:,:,7) - coordination with neighboring cells in the front, located within a 60° sector ahead
-tracedata(:,:,8) - coordination with lateral neighbors, located within lateral 120° sectors)
-tracedata(:,:,9) - coordination with neighboring cells in the back, located within a 60° sector behind
-tracedata(:,:,10) - coordination with all neighboring cells
-tracedata(:,:,11) - persistence. col 1: net distance. Col2: total distance. Col3: net/total distance. -->
+1. x-coordinates of nulear centroids
+2. y-coordinates of nuclear centroids
+3. Area of nucleus
+4. Mass of nucleus (density x area)
+5. Angle of movement 
+6. Single cell velocity
+7. Coordination with neighboring cells in the front, located within a 60° sector ahead
+8. Coordination with lateral neighbors, located within lateral 120° sectors
+9. Coordination with neighboring cells in the back, located within a 60° sector behind
+10. Coordination with all neighboring cells
+11. Persistence. col 1: net distance. Col2: total distance. Col3: net/total distance.
+12. Matched cellpose mask labels
+13. Area of cell masks
+14. x-coordinates of cell mask centroids
+15. y-coordinates of cell mask centroids
+16. Circularity of cell masks
+17. Eccentricity of cell masks
+18. Perimeter of cell masks
 
 ### Postprocessing
