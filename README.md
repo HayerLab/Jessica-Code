@@ -43,6 +43,7 @@ Now you can run the file. The segmentation results are stored at np files in the
 The .csv files contain the label matrices of the segmented cell masks and we will use these files in later cell tracking. 
 
 ## Cell Tracking 
+Acknowledgements: cell tracking algorithm done in collaboration with Lydia
 ### Matching Cellpose Masks to Nuclear Tracking Output
 
 The top level script for cell tracking is the ``` mask_matching.m ``` file. The cell mask tracking consists of three parts: nuclear tracking, motility parameters computations, cell mask matching. 
@@ -82,3 +83,35 @@ Each slice of the matrix contains the values for different parameters of each ce
 18. Perimeter of cell masks
 
 ### Postprocessing
+The output of the cell mask tracking is postprocessed for better downstream analysis. Postprocessing is done in three steps: create new label matrices with cell number for single nucleu cells only, remove cells at the border, filter out cells with higher than average intensity. 
+
+#### Cell number labeling
+Label matrices (same size as original label matrix output from the cell segmentation) are generated for each frames with each label representing the assigned cell number. As part of the relabeling, cells with multiple nuclei are excluded from the label matrix for the purpose of downstream analyses. However, the code can be modified to include such cells. 
+
+The top level script is ```cell_number_labels.m```. The script calls the ```cell_number``` function (see cell_number.m) which generates the new label matrix. For the purpose of genrating and saving label matrices of cell numbers, the function returns a M x N size 2-D matrix where M, N are the size of the original label matrix. 
+
+The current script excludes all non-single nucleus cells when labeling the matrix. If all cells (single nucleus or not) should be included then replace line 21 - 28: 
+```
+if isnan(cell_label(label_idx)) & cell_label(label_idx)~= 0
+    ID = cellID(i);
+    cell_label(label_idx) = ID;
+elseif ~isnan(cell_label(label_idx))
+    cell_label(label_idx) = 0;
+elseif cell_label(label_idx) == 0
+    continue;
+end
+```
+with 
+```
+ID = cellID(i);
+cell_label(label_idx) = ID;
+```
+
+#### Remove border cells
+
+
+#### Intensity filtering
+
+
+#### Cell Selection based on Track Length
+
