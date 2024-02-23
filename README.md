@@ -6,8 +6,8 @@ The raw data consists of 16-bit greyscale fluorescence microscopy images of the 
 
 First, open the ``` GenerateReferenceBackgroundImages.m ``` file. Change line 4 and 5 according to your directory names: 
 ```
-rawpath='<folder containing raw images>'; 
-background='<name of folder containing background images>';
+rawpath='<folder containing raw background images>'; 
+background='<name of background folder>';
 ```
 Now run the file. 
 
