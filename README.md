@@ -46,7 +46,7 @@ merged_channel_dir = [root, filesep,'raw', filesep, 'composites', filesep, '3_7_
 ## Cell Segmentation
 
 ### Pre-requisite
-You must have the Cellpose library installed prior to running any cell segmentation code. For details on how to install Cellpose, please see [Cellpose GitHub Repository](https://github.com/MouseLand/cellpose).
+You must have the Cellpose library installed prior to running any cell segmentation code. For details on how to install Cellpose, please see [Cellpose GitHub Repository](https://github.com/MouseLand/cellpose) and follow the instructions for local installation.
 
 
 ### General Workflow
