@@ -1,6 +1,24 @@
 # Whole-cell Segmentation and Tracking for HUVEC Monolayers
 This repository contains the codebase for whole-cell segmentation and tracking for HUVEC monolayers. Segmentation is done using Cellpose and cell tracking is done using a series of Matlab scripts. 
 
+Contributors: Jessica, Lydia
+
+## Table of contents
+1. [Preprocessing](#preprocessing)
+2. [Cell Segmentation](#cell-segmentation)
+    1. [Pre-requisite](#pre-requisite)
+    2. [General Workflow](#general-workflow)
+3. [Cell Tracking](#cell-tracking)
+    1. [Matching Cellpose Masks to Nuclear Tracking Output](#matching-cellpose-masks-to-nuclear-tracking-output)
+        1. [Setup](#setup)
+        2. [Running the script](#running-the-script)
+    2. [Postprocessing](#postprocessing)
+        1. [Cell number labeling](#cell-number-labeling)
+        2. [Remove border cells](#remove-border-cells)
+        3. [Intensity filtering](#intensity-filtering)
+        4. [Cell selection based on track length](#cell-selection-based-on-track-length)
+
+
 ## Preprocessing 
 The raw data consists of 16-bit greyscale fluorescence microscopy images of the nuclear and E-cadherin stains. Preprocessing is done to generate RGB images of the monolayer from the raw images with DAPI as the red channel and YFP as the green channel. The Preprocessing folder contains code for generating the composite images, as well as the required dependencies. 
 
@@ -50,7 +68,7 @@ Now you can run the file. The segmentation results are stored at np files in the
 The .csv files contain the label matrices of the segmented cell masks and we will use these files in later cell tracking. 
 
 ## Cell Tracking 
-Acknowledgements: cell tracking algorithm done in collaboration with Lydia
+
 ### Matching Cellpose Masks to Nuclear Tracking Output
 
 The top level script for cell tracking is the ``` mask_matching.m ``` file. The cell mask tracking consists of three parts: nuclear tracking, motility parameters computations, cell mask matching. 
@@ -138,7 +156,7 @@ Line 39 and 67 should also be changed to match the range with the number of fram
 
 The code saves all the new cell number matrices for each frame and also saves a struct array containing the filtered cells (i.e. cells whose mena intensity did not exceed the threshold). 
 
-#### Cell Selection based on Track Length
+#### Cell selection based on track length
 This step filters out any cells whose track length is less than some set threshold. 
 
 To adjust the threshold, change the threshold variable declared in Line 14 in the consistent_tracks.m file. 
