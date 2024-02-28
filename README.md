@@ -24,7 +24,14 @@ merged_channel_dir = [root, filesep,'raw', filesep, 'composites', filesep, '3_7_
 ```
 
  The ```load ``` command in line 21 loads the stored Matlab matrix output from ```AlignmentParameters.m```, change the filepath accordingly. The position variable should also be changed to the shot number you are currently analyzing. 
+
 ## Cell Segmentation
+
+### Pre-requisite
+You must have the Cellpose library installed prior to running any cell segmentation code. For details on how to install Cellpose, please see [Cellpose GitHub Repository](https://github.com/MouseLand/cellpose).
+
+
+### General Workflow
 Cell segmentation is done using a custom trained Cellpose model. A python script is setup to automate the segmentation process. Python scripts for training a cellpose model, as well as analyzing its performance are also stored in the ```cellpose code```  folder. 
 
 There are two HUVEC-monolayer-trained cellpose models available, both under the ```trained cellpose models``` folder. One is trained and tested on a single dataset consisting of images from a single movie. The other is trained with a dataset that consists of images from 3 different movies (15 images each). The two models have similar performances on segmenting HUVEC monolayers, so it doesn't matter which one you choose to use. 
@@ -53,7 +60,11 @@ Change the ``` shots_row```, ``` shots_col```, and ``` shots_sites``` variables 
 
 Line 3 to 9 sets up the folder for the segmented masks, raw images, data storage etc. Please change these accordingly.
 
+Depending on the dataset that you are running the tracking algorithm on, you will have to adjust the input parameters to the nuclear tracking code. The Timelapse20x() function takes as input the respective row,col,site of the microscopy images,projectpath,imagepath,experimentpath, SF (starting frame), and EF (ending frame). See below for an example usage for a movie with 25 frames:
+```
+nuc_tracking = Timelapse20x(shot_num(1), shot_num(2),shot_num(3),projectpath,imagepath,experimentpath, 1,25);
 
+```
 #### Running the script
 The first two parts are done with previous cell tracking scripts that are contained within the Imaging and MotilityParameters folders. When the mask_matching script is run, it automatically run ```add_path.m``` which sets up the correct paths. 
 
@@ -108,10 +119,29 @@ cell_label(label_idx) = ID;
 ```
 
 #### Remove border cells
+Cells at or near the border of the image will be removed since these cells are generally only partially in the field of view (part of its cell is cut off). The main script for this process is ```remove_border.m```. 
 
+The following lines of code must be changed depending on the dataset used: 
+- Line 10 - 14: change the file paths and rows/cols/sites variables accordingly
+- Line 55: change the range to the number of frames for the dataset you are analyzing
+
+You can also change the border threshold input of the good_labels() function to adjust the subset of cells that are at least x pixels away from the image border you want to keep. 
+
+The code saves all the new cell number matrices for each frame and also saves a struct array containing the filtered cells. 
 
 #### Intensity filtering
+Although the trained cell segmentation model generally correctly segments cells, it does have difficulty segmenting individual cells in a "crowded" region of the image (possibly from multiple cells whose edges overlap with each other). Such cells are removed from the label matrix by filtering out any cells that has a high mean intensity. The threshold used for the filtering is the averagee of all computed cell mean intensity plus one standard deviation. 
 
+Similar to the previous step, path variable, as well as row/col/site variables should be changed accordingly. 
+
+Line 39 and 67 should also be changed to match the range with the number of frames in the dataset being used.
+
+The code saves all the new cell number matrices for each frame and also saves a struct array containing the filtered cells (i.e. cells whose mena intensity did not exceed the threshold). 
 
 #### Cell Selection based on Track Length
+This step filters out any cells whose track length is less than some set threshold. 
+
+To adjust the threshold, change the threshold variable declared in Line 14 in the consistent_tracks.m file. 
+
+As before, path variables etc. should also be changed accordingly. Change Line 48 such as the number of for loop iterations matches the number of frames in your dataset. 
 

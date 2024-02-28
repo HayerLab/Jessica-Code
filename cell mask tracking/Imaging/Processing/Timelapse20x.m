@@ -1,4 +1,4 @@
-function trackdata = Timelapse(row,col,site,projectpath,imagepath,experimentpath)
+function trackdata = Timelapse(row,col,site,projectpath,imagepath,experimentpath, SF, EF)
 shot=[num2str(row),'_',num2str(col),'_',num2str(site)];
 datadir=([projectpath,experimentpath,'Results\']);
 if ~exist(datadir,'dir')
@@ -25,7 +25,6 @@ end
 %     maskdir=[maskdir,'\',shot,'_'];
 % end
 %%% setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-SF=1;EF=180;
 moviebin=1;
 if moviebin==1
     nucr=20;
