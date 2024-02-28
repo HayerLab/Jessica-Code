@@ -4,11 +4,12 @@ This repository contains the codebase for whole-cell segmentation and tracking f
 Contributors: Jessica, Lydia
 
 ## Table of contents
-1. [Preprocessing](#preprocessing)
-2. [Cell Segmentation](#cell-segmentation)
+1. [File Download](#file-download)
+2. [Preprocessing](#preprocessing)
+3. [Cell Segmentation](#cell-segmentation)
     1. [Pre-requisite](#pre-requisite)
     2. [General Workflow](#general-workflow)
-3. [Cell Tracking](#cell-tracking)
+4. [Cell Tracking](#cell-tracking)
     1. [Matching Cellpose Masks to Nuclear Tracking Output](#matching-cellpose-masks-to-nuclear-tracking-output)
         1. [Setup](#setup)
         2. [Running the script](#running-the-script)
@@ -18,6 +19,11 @@ Contributors: Jessica, Lydia
         3. [Intensity filtering](#intensity-filtering)
         4. [Cell selection based on track length](#cell-selection-based-on-track-length)
 
+## File Download
+You can download the files contained in this repository either by directly downloading the repo contents as a ZIP file under the "Code" button or by cloning this repository with the following command:
+```
+git clone https://github.com/HayerLab/Jessica-Code.git
+```
 
 ## Preprocessing 
 The raw data consists of 16-bit greyscale fluorescence microscopy images of the nuclear and E-cadherin stains. Preprocessing is done to generate RGB images of the monolayer from the raw images with DAPI as the red channel and YFP as the green channel. The Preprocessing folder contains code for generating the composite images, as well as the required dependencies. 
