@@ -9,8 +9,8 @@ good_labels(structure_size) = struct();
 
 for i = 1:length(pixels)
     [y,x] = ind2sub(size(cell_mat), pixels(i).PixelIdxList);
-    checkEdgeY = any(y(:) == 1 |y(:) ==  size(cell_mat,1));
-    checkEdgeX = any(x(:) == 1 |x(:) ==  size(cell_mat,2));
+    checkEdgeY = any(y(:) <= 5 |y(:) ==  size(cell_mat,1));
+    checkEdgeX = any(x(:) <= 5 |x(:) ==  size(cell_mat,2));
     if checkEdgeY ~= true && checkEdgeX ~= true
         good_labels(i).x = x;
         good_labels(i).y = y;

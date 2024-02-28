@@ -34,17 +34,18 @@ if device.type == 'cuda':
 
 drive = "Z:\\"
 user = "Jessica\\"
-base_folder = "segment\\"
-shots =["3_8_1\\", "3_8_2\\"]
+base_folder = "raw\\160623_raw\\2B_20x\\"
+shots =["1_6_1\\", "1_6_2\\", "3_1_1\\", "3_1_2\\"]
 model_filepath = "model with varied sets\\training_set\\models\\HUVEC_monolayer_varied_set"
-image_folder = "Composites\\aligned\\tif\\" #note: 2 backward slash for windows folder, 1 for mac
+image_folder = "composites\\" #note: 2 backward slash for windows folder, 1 for mac
 #model_path = "E:\\Jessica\\segmentation\\3_7_1\\Composites\\aligned\\export_fig_tiff\\training\\models\\Improved_HUVEC_monolayer" #@param {type:"string"}
+aligned_folder = "aligned\\"
 model_path = os.path.join(drive, user, model_filepath)
 #@markdown ###Path to images:
 
 for shot in shots:
 #directory = "E:\\Jessica\\segmentation\\3_7_1\\Composites\\aligned" #@param {type:"string"}
-    directory = os.path.join(drive, user, base_folder, shot, image_folder)
+    directory = os.path.join(drive, user, base_folder, image_folder, shot, aligned_folder)
     #@markdown ###Channel Parameters:
     
     Channel_to_use_for_segmentation = "Green" #@param ["Grayscale", "Blue", "Green", "Red"]

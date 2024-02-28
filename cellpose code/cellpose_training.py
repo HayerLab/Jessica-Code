@@ -12,13 +12,24 @@ import skimage.io
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import cellpose
+import torch
 from urllib.parse import urlparse
 from cellpose import models, core
 
 mpl.rcParams['figure.dpi'] = 300
 use_GPU = core.use_gpu()
 print('>>> GPU activated? %d'%use_GPU)
+# setting device on GPU if available, else CPU
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print('Using device:', device)
+print()
 
+#Additional Info when using cuda
+if device.type == 'cuda':
+    print(torch.cuda.get_device_name(0))
+    print('Memory Usage:')
+    print('Allocated:', round(torch.cuda.memory_allocated(0)/1024**3,1), 'GB')
+    print('Cached:   ', round(torch.cuda.memory_reserved(0)/1024**3,1), 'GB')
 train_dir = "E:\\Jessica\\model with varied sets\\training_set"
 test_dir = "E:\\Jessica\\model with varied sets\\test set"
 #Define where the patch file will be saved
