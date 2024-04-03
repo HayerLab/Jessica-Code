@@ -32,9 +32,12 @@ for index = 1%:numel(shot_cat)
     file_path = char(fullfile(mask_base_dir, shot_cat(index), mask_csv_subdir));
     
     %nucler tracking
-    nuc_tracking = Timelapse20x(shot_num(1), shot_num(2),shot_num(3),projectpath,imagepath,experimentpath, 1,25);
-    
     total_frames = length(struct2cell(dir(fullfile(file_path, '*.csv'))));
+    %nucler tracking
+    [nuc_tracking, jitters] = Timelapse20x(shot_num(1), shot_num(2),shot_num(3),projectpath,imagepath,experimentpath,1,total_frames);
+    nuc_tracking(:,:,1) = nuc_tracking(:,:,1) - jitters(:,1)';
+    nuc_tracking(:,:,2) = nuc_tracking(:,:,2) - jitters(:,2)';
+
     %add coordination speed analysis results to trace data
     trace_motility = CoordinationSpeed(nuc_tracking,shot_num(1), shot_num(2),1,total_frames-1);
     save([data_dir,filesep,strcat(shot_cat{index},'_tracking_varied_model')],"trace_motility"); 
@@ -47,6 +50,8 @@ for index = 1%:numel(shot_cat)
     mask_track_y = mask_track(:,:,size(mask_track,3)-3);
     nuc_track_x = mask_track(:,:,1);
     nuc_track_y = mask_track(:,:,2);
+
+    %generate histogram of track lengths
     count_tracks = sum(~isnan(mask_track_x),2);
     count_track_nuc = sum(~isnan(nuc_track_x),2);
     figure;histogram(count_tracks,36)
@@ -55,6 +60,8 @@ for index = 1%:numel(shot_cat)
     figure;histogram(count_track_nuc,36)
     xlabel({'Track length', '(frames)'});
     ylabel({'Frequency'});
+
+    %generate trajectory plots
     mask_area = mask_track(:,:,size(mask_track,3)-5);
     relative_area = bsxfun(@minus,mask_area,mask_area(:,1));
     cell_velocity = mask_track(:,:,size(mask_track,3)-12);

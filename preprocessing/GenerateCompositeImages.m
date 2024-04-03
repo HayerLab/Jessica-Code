@@ -11,15 +11,17 @@
 clear;clc;close all; set(0,'DefaultFigureVisible','off');
 
 %set directories for root, raw images, backgriund, merged images
-root = 'Z:\Jessica';
-rawdir=[root,filesep,'raw',filesep,'160519_CDH5_mCitrine_Hoechst_1min_interval_20x',filesep, '3_7_1'];
-bgdir=[root,filesep,'background'];
-merged_channel_dir = [root, filesep,'raw', filesep, 'composites', filesep, '3_7_1'];
+root = 'Z:\Lydia\150928_analysis';
+%plate = '2B_20x';
+shot = '2_4_2';
+rawdir=[root,filesep,'raw',filesep, shot];
+bgdir=[root,filesep,'background', filesep, shot];
+merged_channel_dir = [root, filesep, 'composites_and_segments', filesep, shot];
 if ~exist(merged_channel_dir, 'dir')
     mkdir(merged_channel_dir)
 end
-load([bgdir,filesep,'3_7_1', filesep, 'alignment parameters pX pY.mat']);
-position='3_7_1';
+load([bgdir, filesep, 'alignment parameters pX pY.mat']);
+position=shot;
 warning('off')
 
 %% Load and process background images
@@ -54,16 +56,17 @@ for i = 1:60
 %% Display alignment
 alignmentFigure = figure;
 merged = subplot(1,2,1);
-composite_file = [merged_channel_dir,filesep,'composite_',num2str(frameNum),'.tif'];
-composite_file_aligned = [merged_channel_dir,filesep,'composite_aligned_',num2str(frameNum),'.tif'];
+composite_file = [merged_channel_dir,filesep,'raw_composites',filesep,'composite_',num2str(frameNum),'.tif'];
+composite_file_aligned = [merged_channel_dir,filesep,'aligned',filesep,'composite_aligned_',num2str(frameNum),'.tif'];
 composite_dir = [merged_channel_dir,filesep,'raw_composites'];
 composite_dir_aligned = [merged_channel_dir,filesep,'aligned'];
+al_DAPI_file = [merged_channel_dir,filesep,'raw_aligned',filesep,shot,'_DAPI_',num2str(frameNum),'.tif'];
 
 %create directories to store RGB images for raw images and aligned images
 %if not already exist
-mkdir ..\segmentation\3_7_1\Composites
-mkdir ..\segmentation\3_7_1\Composites\raw_composites
-mkdir ..\segmentation\3_7_1\Composites\aligned
+% mkdir ..\segmentation\3_7_1\Composites
+% mkdir ..\segmentation\3_7_1\Composites\raw_composites
+% mkdir ..\segmentation\3_7_1\Composites\aligned
 
 %generates composite image with DAPI(nucleus) image as red channel and YFP
 %(CDH5-mCitrine) as green channel
@@ -81,4 +84,8 @@ tif_merged_al = copyobj(merged_al, newFig_al);
 set(tif_merged_al, 'Position', get(0, 'DefaultAxesPosition'));
 %print(gcf, '-dtiff',composite_file_aligned);
 export_fig composite_file_aligned;
+
+imwrite(uint16(imDAPI_al), al_DAPI_file,"tiff")
+
 end
+
