@@ -10,7 +10,7 @@ Contributors: Jessica, Lydia
     1. [Pre-requisite](#pre-requisite)
     2. [General Workflow](#general-workflow)
        1. [Method 1: Python](#cellpose-segmentation-with-python-script)
-       2. [Method 2: MATLAB](#cellpose-segmentation-with-matlab-script-)
+       2. [Method 2: MATLAB](#cellpose-segmentation-with-matlab-script)
 4. [Cell Tracking](#cell-tracking)
     1. [Matching Cellpose Masks to Nuclear Tracking Output](#matching-cellpose-masks-to-nuclear-tracking-output)
         1. [Setup](#setup)
