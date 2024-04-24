@@ -60,6 +60,9 @@ Cell segmentation is done using a custom trained Cellpose model. A python script
 
 There are two HUVEC-monolayer-trained cellpose models available, both under the ```trained cellpose models``` folder. One is trained and tested on a single dataset consisting of images from a single movie. The other is trained with a dataset that consists of images from 3 different movies (15 images each). The two models have similar performances on segmenting HUVEC monolayers, so it doesn't matter which one you choose to use. 
 
+Cellpose segmentation can be done in batch (for multiple images) using either the Python script or the MATLAB script.  
+
+#### Cellpose Segmention with Python Script
 To perform cell segmentation, open the ```cellpose_segmentation.py``` file. The following path variables need to be changed accordingly: 
 ```
 # note: all folder names must end with a file separator (\\ for windows)
@@ -72,6 +75,35 @@ image_folder = "<filepath to image folder>"
 ```
 Now you can run the file. The segmentation results are stored at np files in the image folder, but also stored as .tif images and .csv files under separate images and csv folders within the original image folder. 
 The .csv files contain the label matrices of the segmented cell masks and we will use these files in later cell tracking. 
+
+
+#### Cellpose Segmentation with MATLAB Script 
+The MATLAB script can be found under the cellpose code folder under the filename "cellpose_matlab.m". 
+Line 6 - 14 of the script sets up the various path variable. These variables should be changed according to the filepaths and file names of the data used.
+Note that depending on how your folders are set up, you may not need to use all variables. In which case, subsequent lines that extracts the files from the filepath should also be changed. 
+The variables are as followed: 
+```
+drive = <drive folder>;
+user = <name of user>;
+base_folder = <base folder of microscopy imahges>;
+data_folder = <folder in which cellpose label matrix outputs will be stored>
+model_filepath = <file path of the custom trained model>
+image_folder =<folder containing RGB image ot be segmented that is under the base folder>
+img_folder = <folder for storing overlaid images>
+shots_row = <row of the microscopy image>; shots_col = <column of the microscopy image>; shots_sites = <sites of the microscopy image>;
+#i.e. if the image is from the site 3_8_1 on a plate then row = 3, column = 8 and site = 1
+delimiter = {'_'};
+```
+
+The variable CP creates a cellpose object using the model filepath provided.  
+The function ```segmentsCells2D()``` does the segmentation and in this case, takes the following argument as inputs: 
+```
+cp : cellpose model configuration specified as a cellpose object
+img : an intensity image to be segmented, if an RGB image is used then you need to specify the colour channel (i.e. img(:,:,2) if the Green channel is the primary channel)
+ImageCellDiameter : diameter of the cells
+AuxiliaryChannelImage: intensity image of an auxiliary channel, for example, a nucleus channel
+```
+The script loops through each image in the dataset and stores the Cellpose label matrix output as a .mat file in the data folder. It also stores images of the original image overlaid with the segmentation results.
 
 ## Cell Tracking 
 
