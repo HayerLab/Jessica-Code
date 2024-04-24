@@ -9,6 +9,8 @@ Contributors: Jessica, Lydia
 3. [Cell Segmentation](#cell-segmentation)
     1. [Pre-requisite](#pre-requisite)
     2. [General Workflow](#general-workflow)
+       1. [Method 1: Python](#cellpose-segmentation-with-python-script)
+       2. [Method 2: MATLAB](#cellpose-segmentation-with-matlab-script-)
 4. [Cell Tracking](#cell-tracking)
     1. [Matching Cellpose Masks to Nuclear Tracking Output](#matching-cellpose-masks-to-nuclear-tracking-output)
         1. [Setup](#setup)
@@ -62,7 +64,7 @@ There are two HUVEC-monolayer-trained cellpose models available, both under the 
 
 Cellpose segmentation can be done in batch (for multiple images) using either the Python script or the MATLAB script.  
 
-#### Cellpose Segmention with Python Script
+#### Cellpose Segmentation with Python Script
 To perform cell segmentation, open the ```cellpose_segmentation.py``` file. The following path variables need to be changed accordingly: 
 ```
 # note: all folder names must end with a file separator (\\ for windows)
